@@ -7,7 +7,7 @@ import { join } from 'path';
 import { PuppeteerNode, Viewport } from 'puppeteer-core';
 import { URL } from 'url';
 
-if (/^AWS_Lambda_nodejs(?:10|12|14)[.]x$/.test(process.env.AWS_EXECUTION_ENV) === true) {
+if (/^AWS_Lambda_nodejs(?:10|12|14|16)[.]x$/.test(process.env.AWS_EXECUTION_ENV) === true) {
   if (process.env.FONTCONFIG_PATH === undefined) {
     process.env.FONTCONFIG_PATH = '/tmp/aws';
   }
@@ -43,11 +43,7 @@ class Chromium {
       }
 
       const url = new URL(input);
-      const output = `${process.env.HOME}/.fonts/${url.pathname.split('/').pop()}`;
-
-      if (existsSync(output) === true) {
-        return resolve(output.split('/').pop());
-      }
+      const output = `${process.env.HOME}/.fonts/${url.pathname.split('/').pop()}`; if (existsSync(output) === true) { return resolve(output.split('/').pop()); }
 
       if (url.protocol === 'file:') {
         access(url.pathname, (error) => {
